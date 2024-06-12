@@ -1,0 +1,8 @@
+@import '../../styles/variables';
+
+.webapp-textarea {
+    width: 100%;
+    border-radius: $spacing-small;
+    padding: $spacing-small;
+    font-size: $font-size-small;
+}

@@ -1,0 +1,16 @@
+@import '../../styles/variables';
+.text-title {
+    font-size: $font-size-large;
+}
+
+.text-subtitle {
+    font-size: $font-size-medium;
+}
+
+.text-normal {
+    font-size: $font-size-small;
+}
+
+.text-hint {
+    font-size: $font-size-tiny;
+}

@@ -1,0 +1,28 @@
+@import '../../styles/variables';
+
+.webapp-form {
+    width: 100%;
+    overflow: hidden;
+
+    .ant-form-item {
+        margin: 0px;
+        padding: 0px;
+        padding-bottom: $spacing-medium;
+    }
+
+    .form-item-with-hint > .ant-form-item {
+        margin: 0px !important;
+        padding-bottom: 0px !important;
+    }
+    .form-item-with-hint {
+        padding-bottom: $spacing-medium;
+    }
+
+    .ant-form-item-label > * {
+        font-size: $font-size-small !important;
+        color: $color-text !important;
+    }
+    .ant-form-item-label {
+        padding: 0px;
+    }
+}

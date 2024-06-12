@@ -1,0 +1,73 @@
+@import 'variables';
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+
+    font-family: $font-common;
+}
+
+*::-webkit-scrollbar {
+    display: none;
+    width: 0px;
+}
+
+body {
+    background-color: $color-background;
+}
+
+main {
+    padding: $spacing-medium;
+}
+
+.title {
+    font-family: $font-decorative;
+    font-size: $font-size-large;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-medium;
+
+    input:disabled {
+        background-color: $color-text;
+        color: $color-background;
+    }
+
+    .ant-form-item {
+        margin: 0px;
+    }
+    .ant-form-item-label {
+        margin: 0px;
+        padding: 0px;
+        * {
+            padding: 0px;
+            margin: 0px;
+        }
+    }
+}
+
+.modal__content {
+    color: $color-background !important;
+}
+
+.popconfirm-title {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: $spacing-small;
+}
+
+.ant-popover {
+    max-width: 300px;
+}
+
+.form-item-hint-gap {
+    padding-top: $spacing-small;
+}

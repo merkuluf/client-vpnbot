@@ -1,0 +1,58 @@
+@import '../../styles/variables';
+
+.modal-parent {
+    transition: background-color 0.6s ease;
+    position: fixed;
+    height: 100vh;
+    width: 100%;
+    z-index: 99;
+    overflow: hidden;
+
+    &.visible {
+        background-color: $color-background-transparent;
+    }
+    &.hidden {
+        background-color: transparent;
+        user-select: none;
+        pointer-events: none;
+    }
+}
+
+.modal {
+    width: 100%;
+    transition: transform 0.4s ease, opacity 0.4s ease;
+    z-index: 99;
+    border-radius: 0px 0px $spacing-large $spacing-large;
+    background-color: $color-background;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: $spacing-medium;
+    overflow: hidden;
+    max-height: calc(var(--tg-viewport-height) / 1.157);
+
+    &__content {
+        width: 100%;
+        padding: $spacing-large;
+        overflow-x: scroll;
+        padding-bottom: calc($spacing-large * 4);
+    }
+
+    &.hidden {
+        transform: translateY(-120%);
+        opacity: 0;
+    }
+
+    &.visible {
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+    &__btn {
+        z-index: 199;
+        bottom: $spacing-small;
+        right: $spacing-small;
+        position: absolute;
+    }
+}
