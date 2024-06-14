@@ -1,10 +1,10 @@
 import React from 'react'
-import Text from '../Text'
+import Text from '../Text/Text'
 
-import { sizes } from '../../utils/settings'
-import { color } from '../../utils/settings'
+import { sizes } from '@utils/settings'
+import { color } from '@utils/settings'
 
-function Break({
+function Separator({
     height,
     width,
     clr = '#fafafa30',
@@ -21,7 +21,7 @@ function Break({
     }
 
     return (
-        <div className='break' style={breakStyle}>
+        <div style={breakStyle}>
             {text ? (
                 <div
                     style={{
@@ -29,8 +29,10 @@ function Break({
                         right: '50%',
                         top: '-50%',
                         transform: 'translate(50%, -50%)',
+
                         backgroundColor: bgColor,
-                        padding: '0px 5px',
+                        whiteSpace: 'nowrap',
+                        padding: '0px 12px',
                     }}
                 >
                     <Text>{text}</Text>
@@ -40,4 +42,4 @@ function Break({
     )
 }
 
-export default Break
+export default Separator

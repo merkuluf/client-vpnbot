@@ -24,8 +24,23 @@ export const api = createApi({
                 },
             }),
         }),
+        issueTestVpnKey: builder.mutation({
+            query: (body) => ({
+                url: `/testkey`,
+                body: body,
+                method: 'POST',
+                headers: {
+                    Authorization: `Bearer ${body.token}`,
+                },
+            }),
+        }),
     }),
 })
 
-export const { useGetValidationQuery, useGetUserKeysQuery, useGetUserQuery } =
-    api
+export const {
+    useGetValidationQuery,
+    useGetUserKeysQuery,
+    useGetUserQuery,
+    useLazyGetUserQuery,
+    useIssueTestVpnKeyMutation,
+} = api

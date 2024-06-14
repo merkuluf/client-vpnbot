@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { forwardRef } from 'react'
 import { ConfigProvider, Input } from 'antd'
-import { color } from 'utils/settings'
+import { color } from '@utils/settings'
 
-function WebAppInput({ className, ...props }) {
+const WebAppInput = forwardRef(({ className, ...props }, ref) => {
     return (
         <ConfigProvider
             theme={{
@@ -15,15 +15,17 @@ function WebAppInput({ className, ...props }) {
             }}
         >
             <Input
+                ref={ref}
                 size='large'
                 style={{
-                    backgroundColor: color.background_light,
+                    backgroundColor: color.backgroundColor,
+                    borderColor: color.background,
                 }}
                 className={className ? className : null}
                 {...props}
             />
         </ConfigProvider>
     )
-}
+})
 
 export default WebAppInput

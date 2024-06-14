@@ -1,6 +1,6 @@
 import React from 'react'
 import './text.scss'
-import { color } from 'utils/settings'
+import { color } from '@utils/settings'
 
 function Text({
     children,

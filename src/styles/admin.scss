@@ -1,0 +1,31 @@
+.outline-server {
+    border: 2px solid $color-primary;
+    @include green-tech-shadow;
+    position: relative;
+
+    &__users {
+        position: absolute;
+        top: $spacing-medium;
+        right: $spacing-medium;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+        gap: $spacing-small;
+        background-color: $color-primary-transparent;
+        padding: calc($spacing-small / 2);
+        border-radius: $spacing-small;
+
+        p {
+            color: $color-text !important;
+            font-size: $font-size-medium;
+            line-height: $font-size-medium;
+        }
+
+        .icon {
+            fill: $color-text !important;
+            width: $font-size-small;
+            height: $font-size-small;
+        }
+    }
+}

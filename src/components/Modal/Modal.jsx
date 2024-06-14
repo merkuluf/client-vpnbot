@@ -5,7 +5,7 @@ import './modal.scss'
 import ReactDOM from 'react-dom'
 import { useSelector } from 'react-redux'
 
-function Modal({ children, isOpen = false, onClose }) {
+function Modal({ children, isOpen = false, onClose, noCloseButton = false }) {
     const [isVisible, setIsVisible] = useState(false)
     const [animate, setAnimate] = useState(false)
 
@@ -31,14 +31,16 @@ function Modal({ children, isOpen = false, onClose }) {
         <div className={`modal-parent ${animate ? 'visible' : 'hidden'}`}>
             <div className={`modal ${animate ? 'visible' : 'hidden'}`}>
                 <div className='modal__content'>{children}</div>
-                <WebAppButton
-                    loading={modalIsLoading}
-                    className='modal__btn'
-                    icon={<CloseOutlined />}
-                    circle
-                    danger
-                    onClick={onClose}
-                ></WebAppButton>
+                {noCloseButton ? null : (
+                    <WebAppButton
+                        loading={modalIsLoading}
+                        className='modal__btn'
+                        icon={<CloseOutlined />}
+                        circle
+                        danger
+                        onClick={onClose}
+                    ></WebAppButton>
+                )}
             </div>
         </div>,
         document.getElementById('modal-root')

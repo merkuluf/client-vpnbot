@@ -1,6 +1,6 @@
 import React from 'react'
 import { Button } from 'antd'
-import { WebApp, impactStyle } from 'utils/settings'
+import { WebApp, impactStyle } from '@utils/settings'
 import './webappbutton.scss'
 
 function WebAppButton({

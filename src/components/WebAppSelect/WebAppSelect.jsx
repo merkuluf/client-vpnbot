@@ -1,9 +1,9 @@
-import React from 'react'
+import React, { forwardRef } from 'react'
 import { ConfigProvider, Select } from 'antd'
 import './webappselect.scss'
-import { color } from 'utils/settings'
+import { color } from '@utils/settings'
 
-function WebAppSelect({ className, ...props }) {
+const WebAppSelect = forwardRef(({ className, ...props }, ref) => {
     return (
         <ConfigProvider
             theme={{
@@ -24,6 +24,6 @@ function WebAppSelect({ className, ...props }) {
             />
         </ConfigProvider>
     )
-}
+})
 
 export default WebAppSelect

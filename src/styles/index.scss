@@ -24,11 +24,6 @@ main {
     padding: $spacing-medium;
 }
 
-.title {
-    font-family: $font-decorative;
-    font-size: $font-size-large;
-}
-
 .form {
     display: flex;
     flex-direction: column;
@@ -70,4 +65,35 @@ main {
 
 .form-item-hint-gap {
     padding-top: $spacing-small;
+}
+
+.flexcontainer-center-tgvh {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: var(--tg-viewport-height);
+    transition: 0.3s ease-in-out;
+}
+
+.flexcontainer-center-inline {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    transition: 0.3s ease-in-out;
+}
+
+.flexcontainer-center-tgvh .loading {
+    > :first-child {
+        transform: translateY(-42px);
+    }
+}
+
+.message-container {
+    height: var(--tg-viewport-height);
+    &__content {
+        transform: translateY(-42px);
+    }
 }

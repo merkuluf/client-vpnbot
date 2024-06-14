@@ -1,0 +1,53 @@
+// @import '../../styles/variables';
+
+.round-button {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    border: 0px solid transparent;
+
+    user-select: none;
+
+    background-color: #68ba04;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+
+    transition: 0.45s ease;
+    box-shadow: 0 0 30px 30px rgba(0, 128, 0, 0.5);
+
+    // Optional: Adding a border for a tech look
+    border: 1px solid darken(rgba(0, 128, 0, 0.5), 20%);
+
+    &__icon {
+        height: 133px;
+        width: 133px;
+        fill: #0e3008;
+        transition: 0.35s ease;
+        user-select: none;
+        pointer-events: none;
+    }
+
+    &:hover {
+        scale: 1.03;
+        box-shadow: 0 0 30px (30px) lighten(rgba(0, 128, 0, 0.5), 10%);
+    }
+
+    &:hover &__icon {
+        scale: 1.07;
+    }
+
+    &:active {
+        scale: 1;
+        transition: 0.1s linear;
+        box-shadow: 0 0 10px (10px) lighten(rgba(23, 191, 23, 0.5), 10%);
+    }
+    &:active &__icon {
+        scale: 1;
+        transition: 0.1s linear;
+    }
+}

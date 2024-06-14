@@ -8,11 +8,22 @@ export default defineConfig({
     resolve: {
         alias: {
             '@': path.resolve(__dirname, './src'),
-            styles: path.resolve(__dirname, './src/styles'),
-            utils: path.resolve(__dirname, './src/utils'),
+            '@styles': path.resolve(__dirname, './src/styles'),
+            '@utils': path.resolve(__dirname, './src/utils'),
+            '@components': path.resolve(__dirname, './src/components'),
         },
     },
     server: {
         // port: 3006,
+    },
+    css: {
+        preprocessorOptions: {
+            scss: {
+                additionalData: `
+              @import "@/styles/_variables.scss";
+              @import "@/styles/_mixins.scss";
+            `,
+            },
+        },
     },
 })

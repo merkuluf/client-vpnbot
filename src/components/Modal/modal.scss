@@ -9,7 +9,7 @@
     overflow: hidden;
 
     &.visible {
-        background-color: $color-background-transparent;
+        background-color: $color-background-light;
     }
     &.hidden {
         background-color: transparent;

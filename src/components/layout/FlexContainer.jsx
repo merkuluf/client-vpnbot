@@ -1,25 +1,30 @@
 import React from 'react'
 import { Flex } from 'antd'
-import { sizes } from 'utils/settings'
+import { sizes } from '@utils/settings'
 
 function FlexContainer({
     children,
     vertical = true,
     gap = sizes.spacing_medium,
     padding = sizes.spacing_medium,
+    borderRadius = sizes.spacing_medium,
     className,
-    ...args
+    backgroundColor = 'transparent',
+    style,
+    ...props
 }) {
     return (
         <Flex
-            {...args}
+            {...props}
             style={{
                 gap: gap,
                 padding: padding,
                 width: '100%',
+                backgroundColor: backgroundColor,
+                borderRadius: borderRadius,
             }}
             vertical={vertical}
-            className={`flexcontainer ${className ? className : ''}`}
+            className={`${className ? className : ''}`}
         >
             {children}
         </Flex>

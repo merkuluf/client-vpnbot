@@ -1,0 +1,37 @@
+/* LoaderBar.scss */
+
+.loader-bar {
+    width: 80%;
+    height: 10px;
+    background-color: #2b813e; /* Dark background for contrast */
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.5), 0 0 20px rgba(0, 255, 0, 0.3); /* Green glow */
+    position: relative;
+}
+
+.loader-progress {
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        rgba(0, 255, 0, 0.3),
+        rgba(0, 255, 0, 1),
+        rgba(0, 255, 0, 0.3)
+    );
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: -100%; /* Start off-screen */
+    animation: load 0.4s infinite linear;
+    border-radius: 5px;
+    box-shadow: 0 0 15px rgba(0, 255, 0, 0.8), 0 0 30px rgba(0, 255, 0, 0.6); /* Additional glow */
+}
+
+@keyframes load {
+    0% {
+        left: -100%;
+    }
+    100% {
+        left: 100%;
+    }
+}

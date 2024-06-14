@@ -1,53 +1,29 @@
-@import '../../styles/variables';
-
 .webapp-button {
     background-color: $color-primary;
-    border: 2px solid $color-primary-hover;
-    color: $color-background;
-    font-weight: 600;
-
-    // min-height: 50px;
+    color: $color-text;
+    font-weight: 500;
 }
-
-// .webapp-button:active,
-// .webapp-button:focus {
-//     color: $color-background !important;
-// }
-
-.danger-button {
-    background-color: $color-text;
-    border: 2px solid $color-danger-hover;
-    color: $color-danger-hover;
-}
-
-.confirm-button {
-    background-color: $color-secondary;
-}
-
 .webapp-button:hover {
     background-color: $color-primary-hover !important;
+}
+
+.danger-button {
+    background-color: $color-danger;
+    color: $color-text;
 }
 
 .danger-button:hover {
     background-color: $color-danger-hover !important;
     color: $color-background;
 }
-.confirm-button:hover {
-    background-color: $color-secondary-hover !important;
-    color: $color-background;
-}
 
 @media (pointer: coarse) {
     .webapp-button:hover {
-        background-color: $color-primary-hover !important;
+        background-color: $color-primary !important;
         color: $color-text;
     }
     .danger-button:hover {
         background-color: $color-danger !important;
-        color: $color-background;
-    }
-    .confirm-button:hover {
-        background-color: $color-secondary !important;
         color: $color-background;
     }
 }

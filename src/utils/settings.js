@@ -12,10 +12,10 @@ if (isTelegram) {
 export { WebApp, telegramId, telegramUser, theme }
 
 export const color = {
-    background: '#101010',
-    background_light: '#404040',
+    background: '#070a07',
+    background_light: '#152115',
     text: '#fafafa',
-    primary: '#084fc9',
+    primary: '#1aa64b',
     secondary: '#14ab3f',
     destructive: '#ab2314',
     grey_text: '#909090',
