@@ -1,16 +1,20 @@
 @import '../../styles/variables';
 .text-title {
     font-size: $font-size-large;
+    word-wrap: break-word;
 }
 
 .text-subtitle {
     font-size: $font-size-medium;
+    word-wrap: break-word;
 }
 
 .text-normal {
     font-size: $font-size-small;
+    word-wrap: break-word;
 }
 
 .text-hint {
     font-size: $font-size-tiny;
+    word-wrap: break-word;
 }

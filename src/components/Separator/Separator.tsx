@@ -4,14 +4,23 @@ import Text from '../Text/Text'
 import { sizes } from '@utils/settings'
 import { color } from '@utils/settings'
 
-function Separator({
+interface SeparatorInterface {
+    height?: string
+    width?: string
+    clr?: string
+    margin?: number
+    text?: string
+    bgColor?: string
+}
+
+const Separator: React.FC<SeparatorInterface> = ({
     height,
     width,
     clr = '#fafafa30',
     margin = sizes.spacing_small,
     text,
     bgColor = color.background,
-}) {
+}) => {
     const breakStyle = {
         height: height ? height : '2px',
         width: width ? width : '100%',
@@ -21,6 +30,7 @@ function Separator({
     }
 
     return (
+        //@ts-ignore
         <div style={breakStyle}>
             {text ? (
                 <div

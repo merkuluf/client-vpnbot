@@ -18,7 +18,8 @@ const WebAppSelect = forwardRef(({ className, ...props }, ref) => {
         >
             <Select
                 // showSearch
-                size='large'
+
+                size="large"
                 className={`webapp-select ${className ? className : null}`}
                 {...props}
             />

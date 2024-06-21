@@ -1,0 +1,71 @@
+.user-header {
+    left: $spacing-medium;
+    right: $spacing-medium;
+    top: $spacing-medium;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    transition: 0.2s ease;
+
+    user-select: none;
+    height: calc(40px + (2 * $spacing-small));
+    width: 100%;
+    gap: $spacing-large;
+
+    p {
+        user-select: none;
+        pointer-events: none;
+    }
+
+    &__item {
+        background-color: $color-primary !important;
+        padding: $spacing-small;
+        gap: $spacing-small;
+        border-radius: $spacing-medium;
+
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+
+        height: 100%;
+        min-width: 100px;
+        width: 100%;
+    }
+
+    &__counter {
+        background-color: $color-primary-transparent !important;
+        padding: $spacing-small;
+        padding-left: $spacing-medium;
+        padding-right: $spacing-medium;
+        gap: $spacing-small;
+        border-radius: $spacing-medium;
+
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+
+        height: 100%;
+        min-width: 100px;
+        transition: 0.2s ease;
+    }
+
+    &__item-hidden {
+        width: 0px !important;
+        min-width: 0px !important;
+        padding: 0px !important;
+        opacity: 0 !important;
+    }
+    &__user-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: $spacing-small;
+    }
+}
+
+.no-gap {
+    gap: 0px !important;
+}

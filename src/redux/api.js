@@ -8,9 +8,9 @@ export const api = createApi({
         getValidation: builder.query({
             query: (initData) => `/validate?${initData}`,
         }),
-        getUserKeys: builder.query({
+        getAvailableServers: builder.query({
             query: (token) => ({
-                url: `/user/keys`,
+                url: `/server/available`,
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -34,13 +34,24 @@ export const api = createApi({
                 },
             }),
         }),
+        recordTaps: builder.mutation({
+            query: (body) => ({
+                url: `/taps`,
+                body: body,
+                method: 'POST',
+                headers: {
+                    Authorization: `Bearer ${body.token}`,
+                },
+            }),
+        }),
     }),
 })
 
 export const {
     useGetValidationQuery,
-    useGetUserKeysQuery,
-    useGetUserQuery,
-    useLazyGetUserQuery,
     useIssueTestVpnKeyMutation,
+    useLazyGetUserQuery,
+    useRecordTapsMutation,
+    useGetUserQuery,
+    useGetAvailableServersQuery,
 } = api

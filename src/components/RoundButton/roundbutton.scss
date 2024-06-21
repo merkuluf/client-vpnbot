@@ -17,8 +17,8 @@
 
     cursor: pointer;
 
-    transition: 0.45s ease;
-    box-shadow: 0 0 30px 30px rgba(0, 128, 0, 0.5);
+    transition: 0.25s ease;
+    box-shadow: 0 0 12px 12px rgba(0, 128, 0, 0.5);
 
     // Optional: Adding a border for a tech look
     border: 1px solid darken(rgba(0, 128, 0, 0.5), 20%);
@@ -26,28 +26,28 @@
     &__icon {
         height: 133px;
         width: 133px;
-        fill: #0e3008;
-        transition: 0.35s ease;
+        fill: #0c2008;
+        transition: 0.15s ease;
         user-select: none;
         pointer-events: none;
     }
 
     &:hover {
-        scale: 1.03;
-        box-shadow: 0 0 30px (30px) lighten(rgba(0, 128, 0, 0.5), 10%);
+        // scale: 1.02;
+        box-shadow: 0 0 10px 10px lighten(rgba(0, 128, 0, 0.5), 10%);
     }
 
     &:hover &__icon {
-        scale: 1.07;
+        // scale: 1.03;
     }
 
     &:active {
-        scale: 1;
+        // scale: 1;
         transition: 0.1s linear;
-        box-shadow: 0 0 10px (10px) lighten(rgba(23, 191, 23, 0.5), 10%);
+        box-shadow: 0 0 5px 5px lighten(rgba(23, 191, 23, 0.5), 10%);
     }
     &:active &__icon {
-        scale: 1;
+        // scale: 1;
         transition: 0.1s linear;
     }
 }

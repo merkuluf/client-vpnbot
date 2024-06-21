@@ -3,14 +3,16 @@
 .webapp-select {
     color: $color-background !important;
     width: 100%;
+    z-index: 99;
 
     &__option {
         color: $color-background !important;
+        z-index: 99;
     }
 
     .ant-select-selection-search-input {
         color: $color-background !important;
-        font-size: $font-size-select;
+        font-size: 20px;
     }
 }
 
@@ -19,10 +21,3 @@
         color: #a0a0a0 !important;
     }
 }
-// .webapp-select:disabled {
-//     background-color: $color-background-light !important;
-// }
-
-// .webapp-select::placeholder {
-//     color: $color-background !important;
-// }

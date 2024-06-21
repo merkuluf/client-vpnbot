@@ -7,6 +7,25 @@
     background-color: $color-primary-hover !important;
 }
 
+.feature-btn {
+    background-color: #c9ae12;
+    animation: appear 1s ease;
+}
+.feature-btn:hover {
+    background-color: #ddbe0f !important;
+}
+
+@keyframes appear {
+    0% {
+        opacity: 0;
+        scale: 0.55;
+    }
+    100% {
+        opacity: 1;
+        scale: 1;
+    }
+}
+
 .danger-button {
     background-color: $color-danger;
     color: $color-text;
@@ -26,6 +45,10 @@
         background-color: $color-danger !important;
         color: $color-background;
     }
+    .feature-btn:hover {
+        background-color: #c9ae12 !important;
+        color: $color-background;
+    }
 }
 
 .webapp-button:disabled {
@@ -34,6 +57,15 @@
     background-color: $color-background-light !important;
     &:hover {
         background-color: $color-background-light !important;
+    }
+}
+
+.feature-btn:disabled {
+    border: 1.5px solid #6b5c06;
+    color: $color-text;
+    background-color: #c9ae1246 !important;
+    &:hover {
+        background-color: #c9ae1246 !important;
     }
 }
 

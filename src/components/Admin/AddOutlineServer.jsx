@@ -1,11 +1,11 @@
-import React, { Suspense, lazy, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Form } from 'antd'
-const WebAppInput = lazy(() => import('@components/WebAppInput/WebAppInput'))
-const WebAppButton = lazy(() => import('@components/WebAppButton/WebAppButton'))
-const FlexContainer = lazy(() => import('@components/layout/FlexContainer'))
-const WebAppForm = lazy(() => import('@components/WebAppForm/WebAppForm'))
-const Separator = lazy(() => import('@components/Separator/Separator'))
-const WebAppSelect = lazy(() => import('@components/WebAppSelect/WebAppSelect'))
+
+import WebAppButton from '@components/WebAppButton/WebAppButton'
+import FlexContainer from '@components/layout/FlexContainer'
+import WebAppForm from '@components/WebAppForm/WebAppForm'
+import Separator from '@components/Separator/Separator'
+import WebAppSelect from '@components/WebAppSelect/WebAppSelect'
 
 import { useCreateServerMutation, useGetServersQuery } from '@/redux/adminApi'
 import Modal from '@components/Modal/Modal'
@@ -13,6 +13,7 @@ import LoaderBar from '@components/LoaderBar/LoaderBar'
 import Loading from '@components/Loading/Loading'
 import COUNTRYCODES from '@utils/COUNTRYCODES'
 import ReactCountryFlag from 'react-country-flag'
+import WebAppInput from '@components/WebAppInput/WebAppInput'
 
 function AddOutlineServer() {
     const [isAddServerModalOpen, setIsAddServerModalOpen] = useState(false)
@@ -21,8 +22,7 @@ function AddOutlineServer() {
     }
     const token = localStorage.getItem('token')
 
-    const [triggerCreateServer, { data, isLoading, isSuccess }] =
-        useCreateServerMutation()
+    const [triggerCreateServer, { data, isLoading, isSuccess }] = useCreateServerMutation()
 
     const { refetch: refetchServers } = useGetServersQuery(token)
     function handleAddServer(e) {
@@ -53,24 +53,23 @@ function AddOutlineServer() {
     }))
 
     return (
-        <Suspense fallback={<LoaderBar />}>
-            <WebAppButton onClick={toggleAddServerModal}>
-                Добавить сервер
-            </WebAppButton>
+        <React.Fragment>
+            <WebAppButton onClick={toggleAddServerModal}>Добавить сервер</WebAppButton>
             <Modal
                 isOpen={isAddServerModalOpen}
                 onClose={toggleAddServerModal}
                 noCloseButton={isLoading}
             >
                 {isLoading ? (
-                    <Loading fullWidth={false} />
+                    <Loading fullHeight={false} />
                 ) : (
-                    <FlexContainer padding='0px'>
-                        <Separator text='Добавить сервер' />
+                    <FlexContainer padding="0px">
+                        <Separator text="Добавить сервер" />
+
                         <WebAppForm onFinish={handleAddServer}>
                             <Form.Item
-                                label='Название'
-                                name='name'
+                                label="Название"
+                                name="name"
                                 rules={[
                                     {
                                         required: true,
@@ -79,17 +78,11 @@ function AddOutlineServer() {
                                     ({ getFieldValue }) => ({
                                         validator(_, value) {
                                             if (!value) {
-                                                return Promise.reject(
-                                                    new Error(
-                                                        'Введите название!'
-                                                    )
-                                                )
+                                                return Promise.reject(new Error('Введите название!'))
                                             }
                                             if (value.length < 4) {
                                                 return Promise.reject(
-                                                    new Error(
-                                                        'Введите название хотя бы из 4 символов!'
-                                                    )
+                                                    new Error('Введите название хотя бы из 4 символов!')
                                                 )
                                             }
                                             return Promise.resolve()
@@ -97,11 +90,11 @@ function AddOutlineServer() {
                                     }),
                                 ]}
                             >
-                                <WebAppInput placeholder='Супер Сервер' />
+                                <WebAppInput placeholder="Супер Сервер" />
                             </Form.Item>
                             <Form.Item
-                                label='Аддрес'
-                                name='addr'
+                                label="Аддрес"
+                                name="addr"
                                 rules={[
                                     {
                                         required: true,
@@ -110,29 +103,22 @@ function AddOutlineServer() {
                                     ({ getFieldValue }) => ({
                                         validator(_, value) {
                                             if (!value) {
-                                                return Promise.reject(
-                                                    new Error(
-                                                        'Введите корректный URL!'
-                                                    )
-                                                )
+                                                return Promise.reject(new Error('Введите корректный URL!'))
                                             }
                                             if (!/^https:\/\/.*/.test(value)) {
-                                                return Promise.reject(
-                                                    new Error(
-                                                        'Введите корректный URL!'
-                                                    )
-                                                )
+                                                return Promise.reject(new Error('Введите корректный URL!'))
                                             }
                                             return Promise.resolve()
                                         },
                                     }),
                                 ]}
                             >
-                                <WebAppInput placeholder='https://1.2.3.4:4321/ZjeLxJ5gbInzZje' />
+                                <WebAppInput placeholder="https://1.2.3.4:4321/ZjeLxJ5gbInzZje" />
                             </Form.Item>
+
                             <Form.Item
-                                label='Сертификат'
-                                name='cert'
+                                label="Сертификат"
+                                name="cert"
                                 rules={[
                                     {
                                         required: true,
@@ -141,29 +127,21 @@ function AddOutlineServer() {
                                     ({ getFieldValue }) => ({
                                         validator(_, value) {
                                             if (!value) {
-                                                return Promise.reject(
-                                                    new Error(
-                                                        'Введите сертификат'
-                                                    )
-                                                )
+                                                return Promise.reject(new Error('Введите сертификат'))
                                             }
                                             if (value.length < 10) {
-                                                return Promise.reject(
-                                                    new Error(
-                                                        'Введите корректный сертификат!'
-                                                    )
-                                                )
+                                                return Promise.reject(new Error('Введите корректный сертификат!'))
                                             }
                                             return Promise.resolve()
                                         },
                                     }),
                                 ]}
                             >
-                                <WebAppInput placeholder='DD7977FBE5D0F5CB5439A2DA51BBC1D684D803DBDADFBA037B28693858DC33F5' />
+                                <WebAppInput placeholder="DD7977FBE5D0F5CB5439A2DA51BBC1D684D803DBDADFBA037B28693858DC33F5" />
                             </Form.Item>
                             <Form.Item
-                                label='Страна'
-                                name='cc'
+                                label="Страна"
+                                name="cc"
                                 rules={[
                                     {
                                         required: true,
@@ -172,27 +150,26 @@ function AddOutlineServer() {
                                     ({ getFieldValue }) => ({
                                         validator(_, value) {
                                             if (!value) {
-                                                return Promise.reject(
-                                                    new Error('Выберите страну')
-                                                )
+                                                return Promise.reject(new Error('Выберите страну'))
                                             }
                                             return Promise.resolve()
                                         },
                                     }),
                                 ]}
                             >
-                                <WebAppSelect options={PARSED_CC} showSearch />
+                                <WebAppSelect
+                                    options={PARSED_CC}
+                                    showSearch
+                                />
                             </Form.Item>
                             <Form.Item>
-                                <WebAppButton htmlType='submit'>
-                                    Добавить сервер
-                                </WebAppButton>
+                                <WebAppButton htmlType="submit">Добавить сервер</WebAppButton>
                             </Form.Item>
                         </WebAppForm>
                     </FlexContainer>
                 )}
             </Modal>
-        </Suspense>
+        </React.Fragment>
     )
 }
 

@@ -1,7 +1,10 @@
-// src/redux/tokenSlice.js
 import { createSlice } from '@reduxjs/toolkit'
 
-const initialState = {
+interface initialStateProps {
+    token: string | null
+}
+
+const initialState: initialStateProps = {
     token: null,
 }
 

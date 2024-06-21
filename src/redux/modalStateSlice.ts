@@ -1,6 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-const initialState = {
+interface initialStateProps {
+    isLoading: boolean
+}
+
+const initialState: initialStateProps = {
     isLoading: false,
 }
 
@@ -14,5 +18,5 @@ const modalStateSlice = createSlice({
     },
 })
 
-export const { setModalLoading, stopLoading } = modalStateSlice.actions
+export const { setModalLoading } = modalStateSlice.actions
 export default modalStateSlice.reducer

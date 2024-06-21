@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react'
+import { forwardRef } from 'react'
 import { ConfigProvider, Input } from 'antd'
 import { color } from '@utils/settings'
 
@@ -9,17 +9,18 @@ const WebAppInput = forwardRef(({ className, ...props }, ref) => {
                 components: {
                     Input: {
                         colorTextPlaceholder: color.grey_text,
-                        colorTextDisabled: color.grey_text,
+                        colorTextDisabled: color.background,
                     },
                 },
             }}
         >
             <Input
                 ref={ref}
-                size='large'
+                size="large"
                 style={{
-                    backgroundColor: color.backgroundColor,
-                    borderColor: color.background,
+                    backgroundColor: color.text,
+                    borderColor: color.background_light,
+                    border: '2px',
                 }}
                 className={className ? className : null}
                 {...props}

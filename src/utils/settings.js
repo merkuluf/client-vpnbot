@@ -13,12 +13,17 @@ export { WebApp, telegramId, telegramUser, theme }
 
 export const color = {
     background: '#070a07',
+    modal: '#aaff21',
     background_light: '#152115',
-    text: '#fafafa',
+    text: '#f0f0f0',
     primary: '#1aa64b',
+    primary_hover: '#18bf52',
+    primary_transparent: '#18bf5247',
     secondary: '#14ab3f',
     destructive: '#ab2314',
     grey_text: '#909090',
+    danger: '#9a2820',
+    danger_hover: '#c12b20',
 }
 
 export const sizes = {

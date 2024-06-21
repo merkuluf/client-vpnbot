@@ -1,8 +1,21 @@
-import React from 'react'
+import React, { CSSProperties, ReactNode } from 'react'
 import './text.scss'
 import { color } from '@utils/settings'
 
-function Text({
+interface TextProps {
+    children?: ReactNode
+    title?: boolean
+    subtitle?: boolean
+    normal?: boolean
+    hint?: boolean
+    bullet?: boolean
+    align?: CSSProperties['textAlign']
+    block?: boolean
+    clr?: string
+    className?: string
+}
+
+const Text: React.FC<TextProps> = ({
     children,
     title,
     subtitle,
@@ -13,7 +26,7 @@ function Text({
     block = true,
     clr = color.text,
     className,
-}) {
+}) => {
     // Assign priority levels to each type
     const priorityLevels = {
         title: 4,
@@ -33,13 +46,10 @@ function Text({
     ]
 
     // Filter props that were passed (are true) and sort them by priority
-    const sortedTypes = typesWithPriority
-        .filter((type) => type.prop)
-        .sort((a, b) => b.priority - a.priority)
+    const sortedTypes = typesWithPriority.filter((type) => type.prop).sort((a, b) => b.priority - a.priority)
 
     // Determine the highest priority type to render
-    const highestPriorityType =
-        sortedTypes.length > 0 ? sortedTypes[0].type : 'normal'
+    const highestPriorityType = sortedTypes.length > 0 ? sortedTypes[0].type : 'normal'
 
     // Prepare children with bullet if bullet prop is passed
     const content = bullet ? (
