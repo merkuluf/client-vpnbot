@@ -31,7 +31,7 @@ const Modal: React.FC<ModalProps> = ({
     const [animate, setAnimate] = useState<boolean>(false)
     //@ts-ignore
     const modalIsLoading = useSelector((state) => state.modalState.isLoading)
-    const isLocalLoading = modalIsLoading || isLoading
+    // const isLocalLoading = modalIsLoading
 
     useEffect(() => {
         let timeoutId
@@ -58,7 +58,7 @@ const Modal: React.FC<ModalProps> = ({
     return ReactDOM.createPortal(
         <div className={`modal-parent ${animate ? 'visible' : 'hidden'}`}>
             <div className={`modal ${animate ? 'visible' : 'hidden'} ${glow ? 'glow' : ''}`}>
-                {isLocalLoading ? (
+                {isLoading ? (
                     <FlexContainer padding={sizes.spacing_large}>
                         <Loading fullHeight={false} />
                     </FlexContainer>
@@ -68,7 +68,7 @@ const Modal: React.FC<ModalProps> = ({
                         <WebAppHeader />
                         {noCloseButton ? null : (
                             <WebAppButton
-                                loading={isLocalLoading}
+                                loading={modalIsLoading}
                                 className="modal__btn"
                                 icon={<CloseOutlined />}
                                 circle

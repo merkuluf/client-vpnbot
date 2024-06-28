@@ -7,22 +7,22 @@
     -ms-overflow-style: none;
     scrollbar-width: none;
     -ms-overflow-style: -ms-autohiding-scrollbar;
-
     font-family: $font-common;
-    -webkit-touch-callout: none; /* Prevents long tap magnifier/callout */
-    user-select: none; /* Prevents text selection */
-    -webkit-user-select: none;
+}
+
+*::-webkit-scrollbar {
+    display: none;
+    width: 0px;
+}
+
+.no-events {
+    user-select: none;
     -webkit-touch-callout: none;
     -webkit-user-callout: none;
     -webkit-user-select: none;
     -webkit-user-drag: none;
     -webkit-user-modify: none;
     -webkit-highlight: none;
-}
-
-*::-webkit-scrollbar {
-    display: none;
-    width: 0px;
 }
 
 body {
@@ -39,10 +39,10 @@ main {
     flex-direction: column;
     gap: $spacing-medium;
 
-    input:disabled {
-        background-color: $color-text;
-        color: $color-background;
-    }
+    // input:disabled {
+    //     background-color: $color-text;
+    //     color: $color-background;
+    // }
 
     .ant-form-item {
         margin: 0px;

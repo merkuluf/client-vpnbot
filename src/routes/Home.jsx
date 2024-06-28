@@ -1,5 +1,10 @@
 import { useEffect, useMemo, useState, useCallback } from 'react'
-import { useGetAvailableServersQuery, useGetUserQuery } from '../redux/api'
+import {
+    useCreateLavaPaymentMutation,
+    useGetAvailableServersQuery,
+    useGetPlansQuery,
+    useGetUserQuery,
+} from '../redux/api'
 import { useLocation, useNavigate } from 'react-router-dom'
 
 import FlexContainer from '@components/layout/FlexContainer'
@@ -19,6 +24,9 @@ import Separator from '@components/Separator/Separator'
 import WebAppSelect from '@components/WebAppSelect/WebAppSelect'
 import WebAppForm from '@components/WebAppForm/WebAppForm'
 import ReactCountryFlag from 'react-country-flag'
+import { calculatePercentage } from '@utils/PERCENTAGE'
+import { useDispatch } from 'react-redux'
+import { setModalLoading } from '@redux/modalStateSlice'
 
 function Home() {
     const token = localStorage.getItem('token')
@@ -30,14 +38,13 @@ function Home() {
         data: user,
         isLoading: isUserLoading,
         isError: isUserError,
-        isSuccess: isUserSuccess,
         isFetching: isUserFetching,
         refetch: refetchUser,
     } = useGetUserQuery(token)
 
     useEffect(() => {
         if (shouldRefetch) refetchUser(token)
-    }, [shouldRefetch])
+    }, [shouldRefetch, refetchUser, token])
 
     const testKeyExist = useMemo(() => {
         if (!user || !user?.keys?.length) return false
@@ -134,50 +141,85 @@ function Home() {
 
 export default Home
 
-const planOption = [
-    {
-        value: 7,
-        label: 'Неделя свободного интернета',
-    },
-    {
-        value: 30,
-        label: '1 месяц свободного интернета',
-    },
-    {
-        value: 90,
-        label: '3 месяца свободного интернета',
-    },
-    {
-        value: 180,
-        label: '6 месяцев свободного интернета',
-    },
-    {
-        value: 360,
-        label: 'Год свободного интернета',
-    },
-]
-
 function BuyKey() {
     const token = localStorage.getItem('token')
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     const [buyFullModal, setBuyFullModal] = useState(false)
     function toggleBuyModal() {
         setBuyFullModal(!buyFullModal)
     }
 
-    const { data, isLoading } = useGetAvailableServersQuery(token)
+    const { data: servers, isLoading } = useGetAvailableServersQuery(token)
+    const { data: plans, isLoading: isPlansLoading } = useGetPlansQuery(token)
+    const [
+        createPayment,
+        { data: payment, isLoading: isCreatingPayment, isSuccess: isPaymentCreated, isError: isPaymentError },
+    ] = useCreateLavaPaymentMutation()
+
+    useEffect(() => {
+        dispatch(setModalLoading(false))
+        if (isPaymentError) {
+            message.error('Ошибка!')
+        }
+        if (isPaymentCreated) {
+            navigate('/payment/' + payment?.id, { state: { payment: payment } })
+        }
+    }, [isCreatingPayment, isPaymentError, isPaymentCreated, navigate, dispatch])
 
     const availableServers = useMemo(() => {
-        if (!data || !data.length) return []
-        return data.map((s) => ({
+        if (!servers || !servers.length) return []
+
+        return servers.map((s) => ({
             value: s.id,
             label: (
                 <span>
-                    <ReactCountryFlag countryCode={s.countrycode} /> - {s.name}
+                    <ReactCountryFlag countryCode={s.countrycode} /> - {s.name} - [
+                    {calculatePercentage(s.keys.length, s.maxUsers)}%]
                 </span>
             ),
         }))
-    }, [data])
+    }, [servers])
+
+    const availablePlans = useMemo(() => {
+        if (!plans || !plans.length) return []
+        return plans.map((p) => ({
+            value: p.offerId,
+            label: `${p.label} ${p.price}₽`,
+        }))
+    }, [plans])
+
+    const [priceTag, setPriceTag] = useState(0)
+    const [description, setDescription] = useState('Выберите план')
+    const handleChangePriceTag = useCallback(
+        (e) => {
+            const obj = plans.find((p) => p.offerId == e)
+            setPriceTag(obj?.price || null)
+            setDescription(obj?.label || null)
+            return
+        },
+        [plans]
+    )
+
+    const handleCreatePayment = useCallback(
+        (e) => {
+            dispatch(setModalLoading(true))
+            createPayment({ ...e, token })
+        },
+        [token]
+    )
+
+    if (isLoading || isPlansLoading)
+        return (
+            <Loading
+                title="Ищем сервера"
+                fullHeight={false}
+            />
+        )
+    if (!availableServers.length) {
+        return <Text>Нет доступных серверов</Text>
+    }
 
     return (
         <>
@@ -186,23 +228,97 @@ function BuyKey() {
                 glow
                 isOpen={buyFullModal}
                 onClose={toggleBuyModal}
-                isLoading={isLoading}
             >
                 <FlexContainer padding="0px">
                     <Separator text="Оформление ключа" />
-                    <WebAppForm>
-                        <Form.Item label="Выберите период">
+                    <WebAppForm
+                        onFinish={handleCreatePayment}
+                        disabled={isCreatingPayment}
+                    >
+                        <Form.Item
+                            name="offerId"
+                            label="Выберите период"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: '',
+                                },
+                                () => ({
+                                    validator(_, value) {
+                                        if (!value) {
+                                            return Promise.reject(new Error('Выерите период пользования!'))
+                                        }
+                                        return Promise.resolve()
+                                    },
+                                }),
+                            ]}
+                        >
                             <WebAppSelect
-                                defaultActiveFirstOption={planOption[0]}
-                                placeholder={planOption[0].label}
-                                options={planOption}
+                                defaultActiveFirstOption={availablePlans[0]}
+                                placeholder={availablePlans[0].label}
+                                options={availablePlans}
+                                onChange={handleChangePriceTag}
                             />
                         </Form.Item>
-                        <Form.Item label="Выберите страну">
-                            <WebAppSelect options={availableServers} />
+                        <Form.Item
+                            name="serverId"
+                            label="Выберите страну"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: '',
+                                },
+                                () => ({
+                                    validator(_, value) {
+                                        if (!value) {
+                                            return Promise.reject(new Error('Выберите страну!'))
+                                        }
+                                        return Promise.resolve()
+                                    },
+                                }),
+                            ]}
+                        >
+                            <WebAppSelect
+                                defaultActiveFirstOption={availableServers[0]}
+                                placeholder={availableServers[0].label}
+                                options={availableServers}
+                            />
                         </Form.Item>
+                        <Form.Item
+                            name="email"
+                            label="Ваша почта (для чека)"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: '',
+                                },
+                                {
+                                    type: 'email',
+                                    message: 'Введите корректный email!',
+                                },
+                                () => ({
+                                    validator(_, value) {
+                                        if (!value) {
+                                            return Promise.reject(new Error('Введите корректный email!'))
+                                        }
+                                        return Promise.resolve()
+                                    },
+                                }),
+                            ]}
+                        >
+                            <WebAppInput
+                                disabled={isCreatingPayment}
+                                placeholder="user@domain.com"
+                            />
+                        </Form.Item>
+                        <Text hint>{description}</Text>
                         <Form.Item>
-                            <WebAppButton>Оплатить</WebAppButton>
+                            <WebAppButton
+                                loading={isCreatingPayment}
+                                htmlType="submit"
+                            >
+                                Оплатить {priceTag}₽
+                            </WebAppButton>
                         </Form.Item>
                     </WebAppForm>
                 </FlexContainer>

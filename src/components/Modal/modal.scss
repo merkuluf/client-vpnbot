@@ -5,6 +5,7 @@
     width: 100%;
     z-index: 9;
     overflow: hidden;
+    scale: 1.01;
 
     &.visible {
         background-color: #283b076f;
@@ -63,8 +64,8 @@
     align-items: center;
     gap: $spacing-medium;
     overflow: hidden;
-    max-height: calc(var(--tg-viewport-height) / 1.157);
-    min-height: calc(var(--tg-viewport-height) / 1.5);
+    max-height: calc(100vh / 1.157);
+    min-height: calc(100vh / 1.157);
     opacity: 1;
 
     &__content {
@@ -93,17 +94,17 @@
     }
 }
 
-// /* Apply blur effect to #root except #modal-root and its children */
-// .blur-active #root *:not(#modal-root):not(#modal-root *) {
-//     filter: blur(3px);
-//     -webkit-filter: blur(3px);
-//     transition: 0.5s ease;
-// }
+/* Apply blur effect to #root except #modal-root and its children */
+.blur-active #root *:not(#modal-root):not(#modal-root *) {
+    filter: blur(3px);
+    -webkit-filter: blur(3px);
+    transition: 0.5s ease;
+}
 
-// /* Remove blur effect from #modal-root and its children */
-// .blur-active #modal-root,
-// .blur-active #modal-root *,
-// .blur-active .ant-select-dropdown {
-//     filter: none !important;
-//     -webkit-filter: none !important;
-// }
+/* Remove blur effect from #modal-root and its children */
+.blur-active #modal-root,
+.blur-active #modal-root *,
+.blur-active .ant-select-dropdown {
+    filter: none !important;
+    -webkit-filter: none !important;
+}

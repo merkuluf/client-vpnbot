@@ -44,6 +44,33 @@ export const api = createApi({
                 },
             }),
         }),
+        getPlans: builder.query({
+            query: (token) => ({
+                url: `/lava/plans`,
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }),
+        }),
+        createLavaPayment: builder.mutation({
+            query: (body) => ({
+                url: '/lava/payment',
+                method: 'POST',
+                body: body,
+                headers: {
+                    Authorization: `Bearer ${body.token}`,
+                },
+            }),
+        }),
+        getPaymentStatus: builder.query({
+            query: (params) => ({
+                url: `/lava/payment?paymentId=${params.paymentId}`,
+                method: 'GET',
+                headers: {
+                    Authorization: `Bearer ${params.token}`,
+                },
+            }),
+        }),
     }),
 })
 
@@ -54,4 +81,7 @@ export const {
     useRecordTapsMutation,
     useGetUserQuery,
     useGetAvailableServersQuery,
+    useGetPlansQuery,
+    useCreateLavaPaymentMutation,
+    useGetPaymentStatusQuery,
 } = api

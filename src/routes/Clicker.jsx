@@ -2,12 +2,12 @@ import RoundButton from '@components/RoundButton/RoundButton'
 import Text from '@components/Text/Text'
 import FlexContainer from '@components/layout/FlexContainer'
 import { WebApp } from '@utils/settings'
-import React, { useCallback, useEffect, useState, useRef } from 'react'
+import { useCallback, useEffect, useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { MdOutlineVpnKey } from 'react-icons/md'
 import '@styles/clicker.scss'
 import WebAppButton from '@components/WebAppButton/WebAppButton'
-import { BackTop, message } from 'antd'
+import { message } from 'antd'
 import ProgressBar from '@/components/ProgressBar/ProgressBar'
 import { useIssueTestVpnKeyMutation } from '@/redux/api'
 import Loading from '@components/Loading/Loading'
@@ -15,8 +15,8 @@ import Loading from '@components/Loading/Loading'
 const clickerSetting = {
     boostTimeMs: 10000,
     megabyteLimit: 4000,
-    x2cost: 5,
-    boostCost: 10,
+    x2cost: 25,
+    boostCost: 50,
 }
 
 function Clicker() {
@@ -40,8 +40,8 @@ function Clicker() {
     const boostTimeoutId = useRef(null)
     const afterBoostDouble = useRef(false)
 
-    const [triggerIssueKey, { data: issuedKey, isLoading, isSuccess, isFetching }] = useIssueTestVpnKeyMutation()
-    function handleRecordResult(e) {
+    const [triggerIssueKey, { isLoading, isSuccess, isFetching, isError }] = useIssueTestVpnKeyMutation()
+    function handleRecordResult() {
         setLocalLoading(true)
         triggerIssueKey({
             token: token,
@@ -54,11 +54,15 @@ function Clicker() {
             setLocalLoading(true)
             navigate('/', { state: { refetch: true } })
         }
-    }, [isSuccess])
+    }, [isSuccess, navigate])
 
     useEffect(() => {
         if (count >= clickerSetting.megabyteLimit) {
             message.info('Вы достигли максимума!')
+            triggerIssueKey({
+                token: token,
+                limit: count,
+            })
         }
     }, [count])
 
@@ -69,6 +73,10 @@ function Clicker() {
             setClickCost((prev) => {
                 if (prev == 10) return prev
                 return prev * 2
+            })
+            setCount((prev) => {
+                if (prev < clickerSetting.x2cost) return prev
+                return prev - clickerSetting.x2cost
             })
         }
         setIsExtraUsed((prev) => {

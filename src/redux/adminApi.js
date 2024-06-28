@@ -23,7 +23,28 @@ export const adminApi = createApi({
                 },
             }),
         }),
+        createLavaPlan: builder.mutation({
+            query: (body) => ({
+                url: `/lava/plan/`,
+                body: body,
+                method: 'POST',
+                headers: {
+                    Authorization: `Bearer ${body.token}`,
+                },
+            }),
+        }),
+        deleteLavaPlan: builder.mutation({
+            query: (body) => ({
+                url: `/lava/plan/`,
+                body: body,
+                method: 'DELETE',
+                headers: {
+                    Authorization: `Bearer ${body.token}`,
+                },
+            }),
+        }),
     }),
 })
 
-export const { useCreateServerMutation, useGetServersQuery } = adminApi
+export const { useCreateServerMutation, useGetServersQuery, useCreateLavaPlanMutation, useDeleteLavaPlanMutation } =
+    adminApi

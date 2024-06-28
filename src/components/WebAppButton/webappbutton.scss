@@ -72,3 +72,10 @@
 .rectangle-btn {
     min-width: 42px;
 }
+
+.no-children-click {
+    // Prevent clicks on all children
+    & > * {
+        pointer-events: none;
+    }
+}

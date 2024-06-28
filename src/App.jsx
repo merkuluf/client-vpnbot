@@ -8,10 +8,9 @@ import Admin from './routes/Admin'
 import Loading from '@components/Loading/Loading'
 import PlainMessage from '@components/Message/PlainMessage'
 import Clicker from './routes/Clicker'
+import Payment from './routes/Payment'
 
 function App() {
-    if (!isTelegram) return <PlainMessage />
-
     const [localLoading, setLocalLoading] = useState(true)
 
     const tokenExist = localStorage.getItem('token')
@@ -27,7 +26,7 @@ function App() {
         data: token,
         isLoading: isValidating,
         isError: isValidatingError,
-        error: validatingError,
+        // error: validatingError,
         isSuccess: isValidated,
     } = useGetValidationQuery(WebApp.initData, {
         skip: tokenExist,
@@ -41,7 +40,7 @@ function App() {
             localStorage.setItem('token', token)
             setLocalLoading(false)
         }
-    }, [isValidated])
+    }, [isValidated, token, tokenExist])
 
     useEffect(() => {
         const observer = new MutationObserver(() => {
@@ -79,9 +78,18 @@ function App() {
                     path="/clicker"
                     element={<Clicker />}
                 />
+                <Route
+                    path="/payment/:id"
+                    element={<Payment />}
+                />
             </Routes>
         </Router>
     )
 }
 
-export default App
+function TelegramProvider() {
+    if (!isTelegram) return <PlainMessage />
+    return <App />
+}
+
+export default TelegramProvider

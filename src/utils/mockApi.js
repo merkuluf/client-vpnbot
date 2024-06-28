@@ -1,5 +1,5 @@
 function mockApi(delay = 1000, callback = () => {}) {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
         setTimeout(() => {
             resolve()
             callback()

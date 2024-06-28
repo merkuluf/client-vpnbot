@@ -1,30 +1,35 @@
 import React, { useEffect, useState } from 'react'
 import { Form } from 'antd'
-
+import { FaRegCircleUser } from 'react-icons/fa6'
 import WebAppButton from '@components/WebAppButton/WebAppButton'
 import FlexContainer from '@components/layout/FlexContainer'
 import WebAppForm from '@components/WebAppForm/WebAppForm'
 import Separator from '@components/Separator/Separator'
 import WebAppSelect from '@components/WebAppSelect/WebAppSelect'
+import Text from '@components/Text/Text'
 
 import { useCreateServerMutation, useGetServersQuery } from '@/redux/adminApi'
 import Modal from '@components/Modal/Modal'
-import LoaderBar from '@components/LoaderBar/LoaderBar'
 import Loading from '@components/Loading/Loading'
 import COUNTRYCODES from '@utils/COUNTRYCODES'
 import ReactCountryFlag from 'react-country-flag'
 import WebAppInput from '@components/WebAppInput/WebAppInput'
+import { color, sizes } from '@utils/settings'
 
-function AddOutlineServer() {
+function OutlineServersManagement() {
     const [isAddServerModalOpen, setIsAddServerModalOpen] = useState(false)
     function toggleAddServerModal() {
         setIsAddServerModalOpen(!isAddServerModalOpen)
     }
+    const [isShowServerModalOpen, setIsShowServerModalOpen] = useState(false)
+    function toggleShowServerModal() {
+        setIsShowServerModalOpen(!isShowServerModalOpen)
+    }
     const token = localStorage.getItem('token')
+    const { data: servers, isLoading: isServersLoading, refetch: refetchServers } = useGetServersQuery(token)
 
-    const [triggerCreateServer, { data, isLoading, isSuccess }] = useCreateServerMutation()
+    const [triggerCreateServer, { isLoading, isSuccess }] = useCreateServerMutation()
 
-    const { refetch: refetchServers } = useGetServersQuery(token)
     function handleAddServer(e) {
         const body = {
             addr: e.addr,
@@ -41,7 +46,7 @@ function AddOutlineServer() {
             setIsAddServerModalOpen(false)
             refetchServers()
         }
-    }, [isSuccess])
+    }, [isSuccess, refetchServers])
 
     const PARSED_CC = COUNTRYCODES.map((cc) => ({
         value: `${cc.value}|${cc.label}`,
@@ -52,9 +57,21 @@ function AddOutlineServer() {
         ),
     }))
 
+    if (isServersLoading)
+        return (
+            <Loading
+                fullHeight={false}
+                title="Грузим сервера"
+            />
+        )
+
     return (
-        <React.Fragment>
+        <FlexContainer
+            padding="0px"
+            gap={sizes.spacing_small}
+        >
             <WebAppButton onClick={toggleAddServerModal}>Добавить сервер</WebAppButton>
+
             <Modal
                 isOpen={isAddServerModalOpen}
                 onClose={toggleAddServerModal}
@@ -75,7 +92,7 @@ function AddOutlineServer() {
                                         required: true,
                                         message: '',
                                     },
-                                    ({ getFieldValue }) => ({
+                                    () => ({
                                         validator(_, value) {
                                             if (!value) {
                                                 return Promise.reject(new Error('Введите название!'))
@@ -100,7 +117,7 @@ function AddOutlineServer() {
                                         required: true,
                                         message: '',
                                     },
-                                    ({ getFieldValue }) => ({
+                                    () => ({
                                         validator(_, value) {
                                             if (!value) {
                                                 return Promise.reject(new Error('Введите корректный URL!'))
@@ -124,7 +141,7 @@ function AddOutlineServer() {
                                         required: true,
                                         message: '',
                                     },
-                                    ({ getFieldValue }) => ({
+                                    () => ({
                                         validator(_, value) {
                                             if (!value) {
                                                 return Promise.reject(new Error('Введите сертификат'))
@@ -147,7 +164,7 @@ function AddOutlineServer() {
                                         required: true,
                                         message: '',
                                     },
-                                    ({ getFieldValue }) => ({
+                                    () => ({
                                         validator(_, value) {
                                             if (!value) {
                                                 return Promise.reject(new Error('Выберите страну'))
@@ -159,6 +176,8 @@ function AddOutlineServer() {
                             >
                                 <WebAppSelect
                                     options={PARSED_CC}
+                                    defaultActiveFirstOption={PARSED_CC[0]}
+                                    placeholder={PARSED_CC[0].value}
                                     showSearch
                                 />
                             </Form.Item>
@@ -169,8 +188,50 @@ function AddOutlineServer() {
                     </FlexContainer>
                 )}
             </Modal>
-        </React.Fragment>
+            <WebAppButton onClick={toggleShowServerModal}>Посмотреть сервера</WebAppButton>
+            <Modal
+                isOpen={isShowServerModalOpen}
+                onClose={toggleShowServerModal}
+            >
+                <FlexContainer
+                    padding="0px"
+                    // gap={sizes.spacing_small}
+                >
+                    {servers?.map((s) => (
+                        <OutlineServer
+                            key={s.id}
+                            server={s}
+                        />
+                    ))}
+                </FlexContainer>
+            </Modal>
+        </FlexContainer>
     )
 }
 
-export default AddOutlineServer
+export default OutlineServersManagement
+
+function OutlineServer({ server }) {
+    const isPrivate = server.isPrivate ? 'Приватный' : 'Общий'
+    return (
+        <FlexContainer
+            className="outline-server"
+            backgroundColor={color.background_light}
+            borderRadius={sizes.spacing_small}
+        >
+            <Text>{server.name}</Text>
+            <Text hint>{isPrivate}</Text>
+            <div className="outline-server__users">
+                <FaRegCircleUser className="icon" />
+                <Text block={false}>{server?.keys?.length ? server?.keys?.length : 0}</Text>
+            </div>
+            <FlexContainer
+                vertical={false}
+                gap="0px"
+                padding="0px"
+            >
+                <WebAppButton danger>Удалить сервер</WebAppButton>
+            </FlexContainer>
+        </FlexContainer>
+    )
+}

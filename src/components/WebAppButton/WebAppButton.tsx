@@ -9,6 +9,7 @@ interface WebAppButtonProps {
     onClick?: (e?: React.MouseEvent<HTMLButtonElement>) => void
     primary?: boolean
     className?: string
+    childrenEvent: boolean
     block?: boolean
     circle?: boolean
     danger?: boolean
@@ -18,6 +19,7 @@ interface WebAppButtonProps {
 
 const WebAppButton: React.FC<WebAppButtonProps> = ({
     children,
+    childrenEvent = true,
     onClick,
     primary = false,
     className,
@@ -42,7 +44,9 @@ const WebAppButton: React.FC<WebAppButtonProps> = ({
             shape={circle ? 'circle' : 'default'}
             type="primary"
             iconPosition="start"
-            className={`${className} webapp-button ${danger ? 'danger-button' : confirm ? 'confirm-button' : ''}`}
+            className={`${className} webapp-button ${danger ? 'danger-button' : confirm ? 'confirm-button' : ''} ${
+                childrenEvent ? 'no-children-click' : ''
+            }`}
             onClick={onWebAppButtonClick}
             {...props}
         >
