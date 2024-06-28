@@ -91,12 +91,16 @@ function Home() {
         <FlexContainer align="center">
             <Header user={user} />
             <Separator text="Ключи" />
-            {!userKeys.length ? (
-                <BuyKey />
-            ) : (
+            <BuyKey />
+            {!userKeys.length ? null : (
                 <FlexContainer padding="0px">
                     {userKeys.map((k) => (
-                        <div key={k.id}>key</div>
+                        <ServerKey
+                            title={`Полный ключ ${k.id}`}
+                            key={k.id}
+                            keyData={testKey}
+                            onCopy={handleOnCopy}
+                        />
                     ))}
                 </FlexContainer>
             )}
@@ -110,36 +114,46 @@ function Home() {
                     <WebAppButton onClick={handleGoToClicker}>Получить тестовый ключ</WebAppButton>
                 </FlexContainer>
             ) : (
-                <FlexContainer backgroundColor={color.primary_transparent}>
-                    <Text>Тестовый ключ</Text>
-                    <FlexContainer
-                        padding="0px"
-                        vertical={false}
-                    >
-                        <WebAppInput
-                            disabled
-                            value={testKey.address}
-                        />
-                        <CopyToClipboard
-                            onCopy={handleOnCopy}
-                            text={testKey.address}
-                        >
-                            <WebAppButton
-                                style={{
-                                    width: '80px',
-                                }}
-                                block={false}
-                                icon={<CopyOutlined />}
-                            />
-                        </CopyToClipboard>
-                    </FlexContainer>
-                </FlexContainer>
+                <ServerKey
+                    title="Тестовый ключ"
+                    keyData={testKey}
+                    onCopy={handleOnCopy}
+                />
             )}
         </FlexContainer>
     )
 }
 
 export default Home
+
+function ServerKey({ keyData, onCopy, title = 'Ключ' }) {
+    return (
+        <FlexContainer backgroundColor={color.primary_transparent}>
+            <Text>{title}</Text>
+            <FlexContainer
+                padding="0px"
+                vertical={false}
+            >
+                <WebAppInput
+                    disabled
+                    value={keyData.address}
+                />
+                <CopyToClipboard
+                    onCopy={onCopy}
+                    text={keyData.address}
+                >
+                    <WebAppButton
+                        style={{
+                            width: '80px',
+                        }}
+                        block={false}
+                        icon={<CopyOutlined />}
+                    />
+                </CopyToClipboard>
+            </FlexContainer>
+        </FlexContainer>
+    )
+}
 
 function BuyKey() {
     const token = localStorage.getItem('token')
