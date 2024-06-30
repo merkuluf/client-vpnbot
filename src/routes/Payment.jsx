@@ -65,6 +65,11 @@ function Payment() {
             }, pollingInterval + 500)
         }
 
+        if (isSuccess && paymentStatus.status === PAYMENT_STATUS.completed) {
+            message.info('Оплата прошла успешно!')
+            navigateHome()
+        }
+
         return () => {
             if (intervalId) {
                 clearInterval(intervalId)
