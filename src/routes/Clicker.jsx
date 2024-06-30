@@ -21,7 +21,7 @@ const clickerSetting = {
 
 function Clicker() {
     const navigate = useNavigate()
-    const token = localStorage.getItem('token')
+    const token = sessionStorage.getItem('token')
     const [localLoading, setLocalLoading] = useState(false)
 
     const handleGoHome = useCallback(() => {
