@@ -13,3 +13,16 @@ export function parseDateString(isoString) {
     const formattedDate = `${year}/${month}/${day} ${hours}:${minutes}`
     return formattedDate
 }
+
+export function oneHourPassed(from) {
+    const date1 = new Date(from)
+    const date2 = new Date()
+
+    const oneHourInMilliseconds = 60 * 60 * 1000
+
+    // Calculate the difference in time
+    const timeDifference = date2 - date1
+
+    // Check if the difference is greater than one hour
+    return timeDifference >= oneHourInMilliseconds
+}

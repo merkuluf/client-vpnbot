@@ -101,6 +101,10 @@ main {
     }
 }
 
+.tg-vp-height {
+    height: var(--tg-viewport-height);
+}
+
 .message-container {
     height: var(--tg-viewport-height);
     &__content {
