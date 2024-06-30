@@ -9,7 +9,7 @@ import '@styles/clicker.scss'
 import WebAppButton from '@components/WebAppButton/WebAppButton'
 import { message } from 'antd'
 import ProgressBar from '@/components/ProgressBar/ProgressBar'
-import { useIssueTestVpnKeyMutation } from '@/redux/api'
+import { useGetUserQuery, useIssueTestVpnKeyMutation } from '@/redux/api'
 import Loading from '@components/Loading/Loading'
 
 const clickerSetting = {
@@ -23,6 +23,17 @@ function Clicker() {
     const navigate = useNavigate()
     const token = sessionStorage.getItem('token')
     const [localLoading, setLocalLoading] = useState(false)
+
+    const { data: user } = useGetUserQuery(token)
+
+    useEffect(() => {
+        const hasTestKey = user.keys.some((k) => k.type === 1)
+        console.log(hasTestKey)
+        if (hasTestKey) {
+            message.info('Вы уже играли')
+            navigate(-1)
+        }
+    }, [user])
 
     const handleGoHome = useCallback(() => {
         navigate('/')
@@ -185,7 +196,7 @@ function Clicker() {
                     hint
                     align="center"
                 >
-                    У тебя один шанс!
+                    У тебя один шанс получить бесплатный ключ с месячным лимитом
                 </Text>
                 {isBoost ? <ProgressBar ms={clickerSetting.boostTimeMs} /> : null}
             </FlexContainer>

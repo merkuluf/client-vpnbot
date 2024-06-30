@@ -87,12 +87,16 @@ function Home() {
         }
     }, [user, handleNavigateAdmin])
 
+    const handleGoTuGuide = useCallback(() => {
+        navigate('/guide')
+    }, [navigate])
     if (isUserLoading || isUserFetching) return <Loading />
     if (isUserError) return <Message />
 
     return (
         <FlexContainer align="center">
             <Header user={user} />
+            <WebAppButton onClick={handleGoTuGuide}>Как пользоватсья?</WebAppButton>
             <Separator text="Ключи" />
             <BuyKey />
             {!userKeys.length ? null : (
@@ -269,7 +273,7 @@ function ServerKey({ keyData, onCopy }) {
     )
 }
 
-function BuyKey() {
+export function BuyKey() {
     const token = sessionStorage.getItem('token')
     const dispatch = useDispatch()
     const navigate = useNavigate()
@@ -303,8 +307,8 @@ function BuyKey() {
             value: s.id,
             label: (
                 <span>
-                    <ReactCountryFlag countryCode={s.countrycode} /> - {s.name} - [
-                    {calculatePercentage(s.keys.length, s.maxUsers)}%]
+                    <ReactCountryFlag countryCode={s.countrycode} /> - {s.name}
+                    {/* [{calculatePercentage(s.keys.length, s.maxUsers)}%] */}
                 </span>
             ),
         }))

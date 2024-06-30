@@ -9,6 +9,7 @@ import Loading from '@components/Loading/Loading'
 import PlainMessage from '@components/Message/PlainMessage'
 import Clicker from './routes/Clicker'
 import Payment from './routes/Payment'
+import Guide from './routes/Guide'
 
 function App() {
     const [localLoading, setLocalLoading] = useState(true)
@@ -66,6 +67,10 @@ function App() {
     return (
         <Router>
             <Routes>
+                <Route
+                    path="/guide"
+                    element={<Guide />}
+                />
                 <Route
                     path="/"
                     element={<Home />}
