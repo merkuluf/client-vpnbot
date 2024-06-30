@@ -13,6 +13,7 @@ interface TextProps {
     block?: boolean
     clr?: string
     className?: string
+    style: JSON
 }
 
 const Text: React.FC<TextProps> = ({
@@ -26,6 +27,7 @@ const Text: React.FC<TextProps> = ({
     block = true,
     clr = color.text,
     className,
+    style,
 }) => {
     // Assign priority levels to each type
     const priorityLevels = {
@@ -70,6 +72,7 @@ const Text: React.FC<TextProps> = ({
                         textAlign: align,
                         color: clr,
                         width: block ? '100%' : '',
+                        ...style,
                     }}
                     className={`text-title ${textClass}`}
                 >
@@ -83,6 +86,7 @@ const Text: React.FC<TextProps> = ({
                         textAlign: align,
                         color: clr,
                         width: block ? '100%' : '',
+                        ...style,
                     }}
                     className={`text-subtitle ${textClass}`}
                 >
@@ -96,6 +100,7 @@ const Text: React.FC<TextProps> = ({
                         textAlign: align,
                         color: clr,
                         width: block ? '100%' : '',
+                        ...style,
                     }}
                     className={`text-normal ${textClass}`}
                 >
@@ -109,6 +114,7 @@ const Text: React.FC<TextProps> = ({
                         textAlign: align,
                         color: clr,
                         width: block ? '100%' : '',
+                        ...style,
                     }}
                     className={`text-hint ${textClass}`}
                 >
@@ -118,7 +124,7 @@ const Text: React.FC<TextProps> = ({
         default:
             return (
                 <p
-                    style={{ textAlign: align, color: clr }}
+                    style={{ textAlign: align, color: clr, ...style }}
                     className={`text-normal ${textClass}`}
                 >
                     {content}

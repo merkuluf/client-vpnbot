@@ -187,35 +187,42 @@ function ServerKey({ keyData, onCopy }) {
                 justify="flex-start"
                 vertical={false}
             >
+                {localKey.type === 1 ? (
+                    ''
+                ) : (
+                    <WebAppButton
+                        onClick={toggleEdit}
+                        style={{
+                            width: '80px',
+                        }}
+                        danger={isNaming}
+                        block={false}
+                        icon={isNaming ? <CloseOutlined /> : <EditOutlined />}
+                    />
+                )}
                 {!isNaming ? (
                     <>
-                        <WebAppButton
-                            onClick={toggleEdit}
-                            style={{
-                                width: '80px',
-                            }}
-                            block={false}
-                            icon={<EditOutlined />}
-                        />
-                        <Text align="center">{title}</Text>
+                        <Text
+                            style={
+                                localKey.type
+                                    ? {
+                                          paddingLeft: sizes.spacing_medium,
+                                      }
+                                    : null
+                            }
+                            align={!localKey.type ? 'center' : ''}
+                        >
+                            {title}
+                        </Text>
                         <ReactCountryFlag
                             style={{
-                                paddingRight: sizes.spacing_large,
+                                paddingRight: sizes.spacing_medium,
                             }}
                             countryCode={localKey.countrycode}
                         />
                     </>
                 ) : (
                     <>
-                        <WebAppButton
-                            onClick={toggleEdit}
-                            style={{
-                                width: '80px',
-                            }}
-                            danger
-                            block={false}
-                            icon={<CloseOutlined />}
-                        />
                         <WebAppInput
                             ref={newNameRef}
                             placeholder="Название"
@@ -252,7 +259,12 @@ function ServerKey({ keyData, onCopy }) {
                     />
                 </CopyToClipboard>
             </FlexContainer>
-            <Text hint>Активен до {parseDateString(localKey.validTill)}</Text>
+            <Text
+                align="center"
+                hint
+            >
+                Активен до {parseDateString(localKey.validTill)}
+            </Text>
         </FlexContainer>
     )
 }
