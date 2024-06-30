@@ -13,7 +13,7 @@ const Message: React.FC<MessageProps> = ({
     description = 'Время действия токена истекло, попробуйте запросить новый',
 }) => {
     function handleTryAgain() {
-        localStorage.removeItem('token')
+        sessionStorage.removeItem('token')
         window.location.reload()
     }
 

@@ -25,7 +25,7 @@ function OutlineServersManagement() {
     function toggleShowServerModal() {
         setIsShowServerModalOpen(!isShowServerModalOpen)
     }
-    const token = localStorage.getItem('token')
+    const token = sessionStorage.getItem('token')
     const { data: servers, isLoading: isServersLoading, refetch: refetchServers } = useGetServersQuery(token)
 
     const [triggerCreateServer, { isLoading, isSuccess }] = useCreateServerMutation()

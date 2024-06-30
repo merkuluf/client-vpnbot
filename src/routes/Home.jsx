@@ -32,7 +32,7 @@ import { setModalLoading } from '@redux/modalStateSlice'
 import { parseDateString } from '@utils/TIME'
 
 function Home() {
-    const token = localStorage.getItem('token')
+    const token = sessionStorage.getItem('token')
     const options = useLocation()
     const shouldRefetch = options?.state?.refetch || false
     const navigate = useNavigate()
@@ -130,7 +130,7 @@ function Home() {
 export default Home
 
 function ServerKey({ keyData, onCopy }) {
-    const token = localStorage.getItem('token')
+    const token = sessionStorage.getItem('token')
     const [triggerRename, { isLoading, isError, isSuccess }] = useRenameKeyMutation()
     const [isNaming, setIsNaming] = useState(false)
     function toggleEdit() {
@@ -270,7 +270,7 @@ function ServerKey({ keyData, onCopy }) {
 }
 
 function BuyKey() {
-    const token = localStorage.getItem('token')
+    const token = sessionStorage.getItem('token')
     const dispatch = useDispatch()
     const navigate = useNavigate()
 

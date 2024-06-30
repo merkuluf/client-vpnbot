@@ -13,7 +13,7 @@ interface TextProps {
     block?: boolean
     clr?: string
     className?: string
-    style: JSON
+    style?: JSON
 }
 
 const Text: React.FC<TextProps> = ({

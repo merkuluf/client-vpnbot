@@ -9,7 +9,7 @@ interface WebAppButtonProps {
     onClick?: (e?: React.MouseEvent<HTMLButtonElement>) => void
     primary?: boolean
     className?: string
-    childrenEvent: boolean
+    childrenEvent?: boolean
     block?: boolean
     circle?: boolean
     danger?: boolean

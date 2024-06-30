@@ -19,7 +19,7 @@ function Payment() {
     const location = useLocation()
     const navigate = useNavigate()
     const [period, setPeriod] = useState(0)
-    const token = localStorage.getItem('token')
+    const token = sessionStorage.getItem('token')
 
     const {
         data: paymentStatus,

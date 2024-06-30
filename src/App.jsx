@@ -13,7 +13,7 @@ import Payment from './routes/Payment'
 function App() {
     const [localLoading, setLocalLoading] = useState(true)
 
-    const tokenExist = localStorage.getItem('token')
+    const tokenExist = sessionStorage.getItem('token')
 
     useEffect(() => {
         WebApp.setHeaderColor(color.background)
@@ -37,7 +37,7 @@ function App() {
             setLocalLoading(false)
         }
         if (isValidated) {
-            localStorage.setItem('token', token)
+            sessionStorage.setItem('token', token)
             setLocalLoading(false)
         }
     }, [isValidated, token, tokenExist])

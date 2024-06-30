@@ -14,7 +14,7 @@ import { Form, message } from 'antd'
 import { useCallback, useEffect, useState } from 'react'
 
 function PlansManagement() {
-    const token = localStorage.getItem('token')
+    const token = sessionStorage.getItem('token')
     const [planForm] = Form.useForm()
     const [isPlanModalOpen, setIsPlanModalOpen] = useState(false)
     const [isPlanMapModalOpen, setIsPlanMapModalOpen] = useState(false)
