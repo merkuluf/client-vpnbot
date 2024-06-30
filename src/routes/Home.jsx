@@ -98,7 +98,7 @@ function Home() {
                         <ServerKey
                             title={`Полный ключ ${k.id}`}
                             key={k.id}
-                            keyData={testKey}
+                            keyData={k}
                             onCopy={handleOnCopy}
                         />
                     ))}
