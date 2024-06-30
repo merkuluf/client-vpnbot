@@ -71,6 +71,16 @@ export const api = createApi({
                 },
             }),
         }),
+        renameKey: builder.mutation({
+            query: (body) => ({
+                url: '/key/name',
+                method: 'PATCH',
+                body: body,
+                headers: {
+                    Authorization: `Bearer ${body.token}`,
+                },
+            }),
+        }),
     }),
 })
 
@@ -84,4 +94,5 @@ export const {
     useGetPlansQuery,
     useCreateLavaPaymentMutation,
     useGetPaymentStatusQuery,
+    useRenameKeyMutation,
 } = api

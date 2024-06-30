@@ -1,9 +1,10 @@
-import { useEffect, useMemo, useState, useCallback } from 'react'
+import { useEffect, useMemo, useState, useCallback, useRef } from 'react'
 import {
     useCreateLavaPaymentMutation,
     useGetAvailableServersQuery,
     useGetPlansQuery,
     useGetUserQuery,
+    useRenameKeyMutation,
 } from '../redux/api'
 import { useLocation, useNavigate } from 'react-router-dom'
 
@@ -11,12 +12,13 @@ import FlexContainer from '@components/layout/FlexContainer'
 import Text from '@components/Text/Text'
 
 import Loading from '@components/Loading/Loading'
-import { WebApp, color } from '@utils/settings'
+import { WebApp, color, sizes } from '@utils/settings'
 import Message from '@components/Message/Message'
 import Header from '@components/Header/Header'
 import WebAppButton from '@components/WebAppButton/WebAppButton'
 import WebAppInput from '@components/WebAppInput/WebAppInput'
-import { CopyOutlined } from '@ant-design/icons'
+import { EditOutlined, CopyOutlined, CloseOutlined, CheckOutlined } from '@ant-design/icons'
+
 import CopyToClipboard from 'react-copy-to-clipboard'
 import { Form, message } from 'antd'
 import Modal from '@components/Modal/Modal'
@@ -27,6 +29,7 @@ import ReactCountryFlag from 'react-country-flag'
 import { calculatePercentage } from '@utils/PERCENTAGE'
 import { useDispatch } from 'react-redux'
 import { setModalLoading } from '@redux/modalStateSlice'
+import { parseDateString } from '@utils/TIME'
 
 function Home() {
     const token = localStorage.getItem('token')
@@ -53,7 +56,7 @@ function Home() {
 
     const userKeys = useMemo(() => {
         if (!user || !user?.keys?.length) return []
-        return user.keys.filter((k) => k.type === 0)
+        return user.keys.filter((k) => k.type === 0).sort((a, b) => b.id - a.id)
     }, [user])
 
     const testKey = useMemo(() => {
@@ -96,7 +99,7 @@ function Home() {
                 <FlexContainer padding="0px">
                     {userKeys.map((k) => (
                         <ServerKey
-                            title={`Полный ключ ${k.id}`}
+                            // title={`Полный ключ ${k.id}`}
                             key={k.id}
                             keyData={k}
                             onCopy={handleOnCopy}
@@ -105,6 +108,7 @@ function Home() {
                 </FlexContainer>
             )}
 
+            <Separator />
             {!testKeyExist ? (
                 <FlexContainer
                     align="center"
@@ -115,7 +119,6 @@ function Home() {
                 </FlexContainer>
             ) : (
                 <ServerKey
-                    title="Тестовый ключ"
                     keyData={testKey}
                     onCopy={handleOnCopy}
                 />
@@ -126,21 +129,119 @@ function Home() {
 
 export default Home
 
-function ServerKey({ keyData, onCopy, title = 'Ключ' }) {
+function ServerKey({ keyData, onCopy }) {
+    const token = localStorage.getItem('token')
+    const [triggerRename, { isLoading, isError, isSuccess }] = useRenameKeyMutation()
+    const [isNaming, setIsNaming] = useState(false)
+    function toggleEdit() {
+        setIsNaming(!isNaming)
+    }
+
+    const [localKey, setLocalKey] = useState(keyData)
+    const newNameRef = useRef()
+
+    useEffect(() => {
+        if (isSuccess) {
+            message.info(`Ключ переименован успешно`)
+        }
+        if (isError) {
+            message.error('Ошибка на сервере, не можем переименовать ключ')
+            setLocalKey(keyData)
+        }
+    }, [isSuccess, isError])
+
+    function handleSaveNewName() {
+        const newName = newNameRef.current.input.value
+        if (!newName) {
+            return message.info('Введите название')
+        }
+        if (newName.length > 12) {
+            return message.info('Название должно влезть в контейнер. Максимум 12 символов :)')
+        }
+
+        setLocalKey((prev) => ({ ...prev, name: newName }))
+        setIsNaming(false)
+        triggerRename({
+            token: token,
+            name: newName,
+            keyId: localKey.id,
+        })
+    }
+    const title =
+        localKey.type === 1
+            ? 'Тестовый ключ'
+            : localKey.name
+            ? localKey.name
+            : `Полный ключ ${localKey.id} ${localKey.countrycode}`
+
+    // if (isLoading) return <Loading fullHeight={false} />
     return (
-        <FlexContainer backgroundColor={color.primary_transparent}>
-            <Text>{title}</Text>
+        <FlexContainer
+            padding={sizes.spacing_small}
+            backgroundColor={color.primary_transparent}
+        >
+            <FlexContainer
+                gap={sizes.spacing_small}
+                padding="0px"
+                align="center"
+                justify="flex-start"
+                vertical={false}
+            >
+                {!isNaming ? (
+                    <>
+                        <WebAppButton
+                            onClick={toggleEdit}
+                            style={{
+                                width: '80px',
+                            }}
+                            block={false}
+                            icon={<EditOutlined />}
+                        />
+                        <Text align="center">{title}</Text>
+                        <ReactCountryFlag
+                            style={{
+                                paddingRight: sizes.spacing_large,
+                            }}
+                            countryCode={localKey.countrycode}
+                        />
+                    </>
+                ) : (
+                    <>
+                        <WebAppButton
+                            onClick={toggleEdit}
+                            style={{
+                                width: '80px',
+                            }}
+                            danger
+                            block={false}
+                            icon={<CloseOutlined />}
+                        />
+                        <WebAppInput
+                            ref={newNameRef}
+                            placeholder="Название"
+                        />
+                        <WebAppButton
+                            onClick={handleSaveNewName}
+                            style={{
+                                width: '80px',
+                            }}
+                            block={false}
+                            icon={<CheckOutlined />}
+                        />
+                    </>
+                )}
+            </FlexContainer>
             <FlexContainer
                 padding="0px"
                 vertical={false}
             >
                 <WebAppInput
                     disabled
-                    value={keyData.address}
+                    value={localKey.address}
                 />
                 <CopyToClipboard
                     onCopy={onCopy}
-                    text={keyData.address}
+                    text={localKey.address}
                 >
                     <WebAppButton
                         style={{
@@ -151,6 +252,7 @@ function ServerKey({ keyData, onCopy, title = 'Ключ' }) {
                     />
                 </CopyToClipboard>
             </FlexContainer>
+            <Text hint>Активен до {parseDateString(localKey.validTill)}</Text>
         </FlexContainer>
     )
 }
