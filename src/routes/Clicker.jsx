@@ -24,17 +24,6 @@ function Clicker() {
     const token = sessionStorage.getItem('token')
     const [localLoading, setLocalLoading] = useState(false)
 
-    const { data: user } = useGetUserQuery(token)
-
-    useEffect(() => {
-        const hasTestKey = user.keys.some((k) => k.type === 1)
-        console.log(hasTestKey)
-        if (hasTestKey) {
-            message.info('Вы уже играли')
-            navigate(-1)
-        }
-    }, [user])
-
     const handleGoHome = useCallback(() => {
         navigate('/')
     }, [navigate])

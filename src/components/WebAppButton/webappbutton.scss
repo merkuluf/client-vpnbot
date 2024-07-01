@@ -7,6 +7,13 @@
     background-color: $color-primary-hover !important;
 }
 
+.google-btn {
+    background-color: $color-google;
+}
+.google-btn:hover {
+    background-color: $color-google-hover !important;
+}
+
 .feature-btn {
     background-color: #c9ae12;
     animation: appear 1s ease;
@@ -47,6 +54,10 @@
     }
     .feature-btn:hover {
         background-color: #c9ae12 !important;
+        color: $color-background;
+    }
+    .google-btn:hover {
+        background-color: $color-google !important;
         color: $color-background;
     }
 }

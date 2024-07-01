@@ -21,6 +21,7 @@ export const color = {
     primary_transparent: '#18bf5247',
     secondary: '#14ab3f',
     destructive: '#ab2314',
+    google: '#4285f4',
     grey_text: '#909090',
     danger: '#9a2820',
     danger_hover: '#c12b20',

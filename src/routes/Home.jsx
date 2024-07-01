@@ -68,10 +68,6 @@ function Home() {
         navigate('/admin')
     }, [navigate])
 
-    const handleOnCopy = useCallback(() => {
-        message.info('Скопировано!')
-    }, [])
-
     const handleGoToClicker = useCallback(() => {
         navigate('/clicker')
     }, [navigate])
@@ -103,10 +99,8 @@ function Home() {
                 <FlexContainer padding="0px">
                     {userKeys.map((k) => (
                         <ServerKey
-                            // title={`Полный ключ ${k.id}`}
                             key={k.id}
                             keyData={k}
-                            onCopy={handleOnCopy}
                         />
                     ))}
                 </FlexContainer>
@@ -122,10 +116,7 @@ function Home() {
                     <WebAppButton onClick={handleGoToClicker}>Получить тестовый ключ</WebAppButton>
                 </FlexContainer>
             ) : (
-                <ServerKey
-                    keyData={testKey}
-                    onCopy={handleOnCopy}
-                />
+                <ServerKey keyData={testKey} />
             )}
         </FlexContainer>
     )
@@ -133,7 +124,7 @@ function Home() {
 
 export default Home
 
-function ServerKey({ keyData, onCopy }) {
+export function ServerKey({ keyData }) {
     const token = sessionStorage.getItem('token')
     const [triggerRename, { isLoading, isError, isSuccess }] = useRenameKeyMutation()
     const [isNaming, setIsNaming] = useState(false)
@@ -143,6 +134,10 @@ function ServerKey({ keyData, onCopy }) {
 
     const [localKey, setLocalKey] = useState(keyData)
     const newNameRef = useRef()
+
+    const handleOnCopy = useCallback(() => {
+        message.info('Скопировано!')
+    }, [])
 
     useEffect(() => {
         if (isSuccess) {
@@ -251,7 +246,7 @@ function ServerKey({ keyData, onCopy }) {
                     value={localKey.address}
                 />
                 <CopyToClipboard
-                    onCopy={onCopy}
+                    onCopy={handleOnCopy}
                     text={localKey.address}
                 >
                     <WebAppButton
