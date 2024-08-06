@@ -14,11 +14,8 @@ import {
     AppleFilled,
     LinuxOutlined,
     ChromeFilled,
-    CopyFilled,
     GoogleOutlined,
 } from '@ant-design/icons'
-import WebAppInput from '@components/WebAppInput/WebAppInput'
-import { FaMagnifyingGlass } from 'react-icons/fa6'
 
 const links = {
     macos: 'https://apps.apple.com/us/app/outline-secure-internet-access/id1356178125?mt=12',
