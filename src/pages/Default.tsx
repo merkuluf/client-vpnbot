@@ -5,7 +5,7 @@ function Default() {
         <div className="container">
             <span className="container__image">
                 <img
-                    src="public/assets/robot.png"
+                    src="src/static/png/robot.png"
                     className="container__image"
                 />
             </span>
