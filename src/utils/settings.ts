@@ -1,17 +1,16 @@
-export const isTelegram = window.Telegram.WebApp.platform !== 'unknown'
+import WebApp from '@twa-dev/sdk'
 
-let WebApp, telegramId, telegramUser, theme
+let telegramId, telegramUser, theme
 
-if (isTelegram) {
-    WebApp = window.Telegram.WebApp
-    telegramId = WebApp.initDataUnsafe.user.id.toString()
+if (WebApp.platform != 'unknown') {
+    telegramId = WebApp.initDataUnsafe.user?.toString()
     telegramUser = WebApp.initDataUnsafe.user
     theme = WebApp.themeParams
 }
 
 export { WebApp, telegramId, telegramUser, theme }
 
-export const color = {
+export const color: { [key: string]: `#${string}` } = {
     background: '#070a07',
     modal: '#aaff21',
     background_light: '#152115',

@@ -1,4 +1,4 @@
-import { WebApp, color, isTelegram } from '@utils/settings'
+import { WebApp } from '@utils/settings'
 import { useEffect, useState } from 'react'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import Home from './routes/Home'
@@ -10,6 +10,8 @@ import PlainMessage from '@components/Message/PlainMessage'
 import Clicker from './routes/Clicker'
 import Payment from './routes/Payment'
 import Guide from './routes/Guide'
+import init from '@utils/inite'
+import Default from './pages/Default'
 export const ENV = import.meta.env.VITE_ENVIRONMENT
 
 function App() {
@@ -18,33 +20,35 @@ function App() {
     const tokenExist = sessionStorage.getItem('token')
 
     useEffect(() => {
-        WebApp.setHeaderColor(color.background)
-        WebApp.setBackgroundColor(color.background)
-        WebApp.expand()
-        WebApp.enableClosingConfirmation()
-        WebApp.disableVerticalSwipes()
-        console.log(ENV)
+        init()
     }, [])
 
     const {
         data: token,
         isLoading: isValidating,
         isError: isValidatingError,
-        // error: validatingError,
+        error: validatingError,
         isSuccess: isValidated,
     } = useGetValidationQuery(WebApp.initData, {
-        skip: tokenExist,
+        skip: tokenExist ? true : false,
     })
 
     useEffect(() => {
-        if (tokenExist) {
+        if (tokenExist || isValidatingError) {
             setLocalLoading(false)
         }
         if (isValidated) {
             sessionStorage.setItem('token', token)
             setLocalLoading(false)
         }
-    }, [isValidated, token, tokenExist])
+    }, [isValidated, token, tokenExist, isValidatingError])
+
+    const [initInvalid, setIsValidatingError] = useState<boolean>(false)
+
+    // useEffect(() => {
+    //     //@ts-ignore
+    //     setIsValidatingError(validatingError.status != true)
+    // }, [validatingError, isValidatingError])
 
     useEffect(() => {
         const observer = new MutationObserver(() => {
@@ -64,7 +68,7 @@ function App() {
     }, [])
 
     if (isValidating || localLoading) return <Loading />
-    if (isValidatingError) return <PlainMessage description="Не можем вас валидировать" />
+    if (isValidatingError || initInvalid) return <PlainMessage description="Не можем вас валидировать" />
 
     // return <LoaderBar />
     return (
@@ -96,7 +100,8 @@ function App() {
 }
 
 function TelegramProvider() {
-    if (!isTelegram) return <PlainMessage />
+    // if (WebApp.platform == 'unknown') return <PlainMessage />
+    if (WebApp.platform == 'unknown') return <Default />
     return <App />
 }
 

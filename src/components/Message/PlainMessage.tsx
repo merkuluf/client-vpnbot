@@ -6,10 +6,10 @@ import React from 'react'
 import { FaTelegramPlane } from 'react-icons/fa'
 
 interface PlainMessageProps {
-    message: string
-    description: string
-    link: string
-    buttonText: string
+    message?: string
+    description?: string
+    link?: string
+    buttonText?: string
 }
 
 const PlainMessage: React.FC<PlainMessageProps> = ({
