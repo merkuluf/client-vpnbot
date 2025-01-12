@@ -43,8 +43,23 @@ export const adminApi = createApi({
                 },
             }),
         }),
+        deleteServer: builder.mutation({
+            query: (body) => ({
+                url: `/server`,
+                body: body,
+                method: 'DELETE',
+                headers: {
+                    Authorization: `Bearer ${body.token}`,
+                },
+            }),
+        }),
     }),
 })
 
-export const { useCreateServerMutation, useGetServersQuery, useCreateLavaPlanMutation, useDeleteLavaPlanMutation } =
-    adminApi
+export const {
+    useCreateServerMutation,
+    useGetServersQuery,
+    useCreateLavaPlanMutation,
+    useDeleteLavaPlanMutation,
+    useDeleteServerMutation,
+} = adminApi

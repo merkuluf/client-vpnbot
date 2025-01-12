@@ -15,7 +15,7 @@ interface PlainMessageProps {
 const PlainMessage: React.FC<PlainMessageProps> = ({
     message = 'Ошибка',
     description = 'Воспользуйтесь телеграммом',
-    link = 'https://t.me/CashCountBot',
+    link = 'https://t.me/bitrageVPNbot',
     buttonText = 'Перейти в бот',
 }) => {
     function handleGoToBot() {

@@ -8,13 +8,13 @@ import Separator from '@components/Separator/Separator'
 import WebAppSelect from '@components/WebAppSelect/WebAppSelect'
 import Text from '@components/Text/Text'
 
-import { useCreateServerMutation, useGetServersQuery } from '@/redux/adminApi'
+import { useCreateServerMutation, useDeleteServerMutation, useGetServersQuery } from '@/redux/adminApi'
 import Modal from '@components/Modal/Modal'
 import Loading from '@components/Loading/Loading'
 import COUNTRYCODES from '@utils/COUNTRYCODES'
 import ReactCountryFlag from 'react-country-flag'
 import WebAppInput from '@components/WebAppInput/WebAppInput'
-import { color, sizes } from '@utils/settings'
+import { color, sizes, WebApp } from '@utils/settings'
 
 function OutlineServersManagement() {
     const [isAddServerModalOpen, setIsAddServerModalOpen] = useState(false)
@@ -213,6 +213,28 @@ export default OutlineServersManagement
 
 function OutlineServer({ server }) {
     const isPrivate = server.isPrivate ? 'Приватный' : 'Общий'
+    const token = sessionStorage.getItem('token')
+    const [deleteServer, { isLoading, isSuccess }] = useDeleteServerMutation()
+    function handleDeleteServer() {
+        WebApp.showConfirm('Удалить сервер?', (status) => {
+            if (status) {
+                deleteServer({
+                    token,
+                    serverId: server.id,
+                })
+            }
+        })
+    }
+
+    if (isLoading) {
+        return (
+            <Loading
+                fullHeight={false}
+                title="Удаляем сервер"
+            />
+        )
+    }
+
     return (
         <FlexContainer
             className="outline-server"
@@ -230,7 +252,12 @@ function OutlineServer({ server }) {
                 gap="0px"
                 padding="0px"
             >
-                <WebAppButton danger>Удалить сервер</WebAppButton>
+                <WebAppButton
+                    onClick={handleDeleteServer}
+                    danger
+                >
+                    Удалить сервер
+                </WebAppButton>
             </FlexContainer>
         </FlexContainer>
     )

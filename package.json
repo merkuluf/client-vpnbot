@@ -1,12 +1,12 @@
 {
-    "name": "client",
+    "name": "bitrage-client",
     "private": true,
-    "version": "0.0.0",
+    "version": "1.0.0",
     "type": "module",
     "scripts": {
-        "dev": "vite --port 5174",
+        "dev": "vite --port 5175",
         "build": "vite build",
-        "tunnel": "concurrently \"npm run dev\" \"ssh -R 5174:localhost:5174 root@78.153.130.241\"",
+        "tunnel:5175": "concurrently \"npm run dev\" \"ssh -R 5175:localhost:5175 root@185.106.94.165\"",
         "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
         "preview": "vite preview"
     },

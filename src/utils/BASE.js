@@ -1,6 +1,6 @@
-const ENV = import.meta.env.VITE_ENVIRONMENT
+export const ENV = import.meta.env.VITE_ENVIRONMENT
 
-const URL = ENV === 'developement' ? 'https://dev.api.wast.ge' : 'https://api.wast.ge'
+const URL = ENV === 'dev' ? 'https://_api.polarcyb.org' : 'https://api.polarcyb.org'
 
 const ADM_URL = URL + '/admin'
 

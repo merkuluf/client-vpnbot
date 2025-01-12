@@ -10,6 +10,7 @@ import PlainMessage from '@components/Message/PlainMessage'
 import Clicker from './routes/Clicker'
 import Payment from './routes/Payment'
 import Guide from './routes/Guide'
+export const ENV = import.meta.env.VITE_ENVIRONMENT
 
 function App() {
     const [localLoading, setLocalLoading] = useState(true)
@@ -21,6 +22,8 @@ function App() {
         WebApp.setBackgroundColor(color.background)
         WebApp.expand()
         WebApp.enableClosingConfirmation()
+        WebApp.disableVerticalSwipes()
+        console.log(ENV)
     }, [])
 
     const {

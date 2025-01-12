@@ -389,7 +389,7 @@ export function BuyKey() {
                         </Form.Item>
                         <Form.Item
                             name="serverId"
-                            label="Выберите страну"
+                            label="Выберите сервер"
                             rules={[
                                 {
                                     required: true,
@@ -398,7 +398,7 @@ export function BuyKey() {
                                 () => ({
                                     validator(_, value) {
                                         if (!value) {
-                                            return Promise.reject(new Error('Выберите страну!'))
+                                            return Promise.reject(new Error('Выберите сервер!'))
                                         }
                                         return Promise.resolve()
                                     },
